@@ -78,6 +78,36 @@
           margin-left: 5%;
         }
       }
+      .lineup-container {
+        position: relative;
+        width: 100%;
+        padding: 50px 0;
+        text-align: right;
+        overflow: hidden;
+      }
+      .lineup-image {
+        max-width: 60%;
+        height: auto;
+        margin-right: 10%;
+        opacity: 0;
+        animation: slideInRight 1.8s forwards;
+      }
+      @keyframes slideInRight {
+        0% {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @media (max-width: 768px) {
+        .lineup-image {
+          max-width: 80%;
+          margin-right: 5%;
+        }
+      }
     </style>
     <script src="parallaxus.js"></script>
   </head>
@@ -96,6 +126,14 @@
         alt="When Where"
         class="when-where-image parallax"
         data-speed="0.5"
+      />
+    </div>
+    <div class="lineup-container">
+      <img
+        src="signal.noise-elements/lineup.png"
+        alt="Lineup"
+        class="lineup-image parallax"
+        data-speed="0.4"
       />
     </div>
   </body>
