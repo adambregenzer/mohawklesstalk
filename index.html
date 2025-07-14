@@ -109,6 +109,39 @@
           margin-right: 5%;
         }
       }
+      .footer-container {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        align-items: center;
+        z-index: 100;
+      }
+      .sn-logo {
+        height: 60px;
+        width: auto;
+        margin-right: 15px;
+        opacity: 0;
+        animation: fadeIn 1.5s forwards 2s;
+      }
+      .website-logo {
+        height: 40px;
+        width: auto;
+        opacity: 0;
+        animation: fadeIn 1.5s forwards 2.5s;
+      }
+      @media (max-width: 768px) {
+        .footer-container {
+          bottom: 15px;
+          right: 15px;
+        }
+        .sn-logo {
+          height: 40px;
+        }
+        .website-logo {
+          height: 25px;
+        }
+      }
     </style>
     <script src="parallaxus.js"></script>
   </head>
@@ -135,6 +168,20 @@
         alt="Lineup"
         class="lineup-image parallax"
         data-speed="0.4"
+      />
+    </div>
+    <div class="footer-container">
+      <img
+        src="signal.noise-elements/sn logo (Traced).png"
+        alt="Signal Noise Logo"
+        class="sn-logo parallax"
+        data-speed="0.2"
+      />
+      <img
+        src="signal.noise-elements/website.png"
+        alt="Website"
+        class="website-logo parallax"
+        data-speed="0.2"
       />
     </div>
   </body>
