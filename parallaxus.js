@@ -534,4 +534,19 @@ window.onload = (event) => {
 
 if (!prefersReducedMotion) {
     parallaxusSetup();
-}
+}document.addEventListener('DOMContentLoaded', function() {
+  const parallaxElements = document.querySelectorAll('.parallax');
+  
+  function updateParallax() {
+    parallaxElements.forEach(element => {
+      const speed = element.getAttribute('data-speed') || 0.5;
+      const yPos = -(window.scrollY * speed);
+      element.style.transform = `translateY(${yPos}px)`;
+    });
+  }
+  
+  window.addEventListener('scroll', updateParallax);
+  
+  // Initialize elements
+  updateParallax();
+});

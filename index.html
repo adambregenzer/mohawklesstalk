@@ -10,7 +10,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
+        overflow-x: hidden;
       }
       body {
         background-image: url("background.png");
@@ -19,9 +19,41 @@
         background-size: cover;
         background-attachment: fixed;
       }
+      .header-container {
+        position: relative;
+        width: 100%;
+        padding-top: 50px;
+        text-align: center;
+        overflow: hidden;
+      }
+      .header-image {
+        max-width: 80%;
+        height: auto;
+        transition: transform 0.5s ease-in-out;
+        opacity: 0;
+        animation: fadeIn 1.5s forwards;
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 768px) {
+        .header-image {
+          max-width: 95%;
+        }
+      }
     </style>
+    <script src="parallaxus.js"></script>
   </head>
   <body>
-    <!-- Your content here -->
+    <div class="header-container">
+      <img src="header.png" alt="Signal.Noise Header" class="header-image parallax" data-speed="0.3">
+    </div>
   </body>
 </html>
