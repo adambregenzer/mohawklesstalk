@@ -1,188 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signal.Noise</title>
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-      }
-      body {
-        background-image: url("background.png");
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-      }
-      .header-container {
-        position: relative;
-        width: 100%;
-        padding-top: 30px;
-        text-align: center;
-        overflow: hidden;
-      }
-      .header-image {
-        max-width: 80%;
-        height: auto;
-        transition: transform 0.5s ease-in-out;
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal.Noise Flyer</title>
+  <style>
+    body {
+
+    margin: auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+    aspect-ratio: 17 / 22;
+    }
+
+    .flyer-container {
+      position: relative;
+      aspect-ratio: 17 / 22;
+      width: 95vw;
+      max-height: 100vh;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .flyer-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: absolute;
+      z-index: 1;
+      max-width: 100%;
+      height: auto;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+    }
+
+    /* Position each overlay image */
+    .header {
+      top: 5%;
+      left: 2%;
+      width: 96%;
+      animation-delay: 0.2s;
+    }
+
+    .when-where {
+      top: 35%;
+      left: 5%;
+      width: 40%;
+      animation: slideIn 1.8s forwards;
+      animation-delay: 0.5s;
+    }
+
+    .lineup {
+      top: 55%;
+      left: 3%;
+      width: 60%;
+      animation: slideInRight 1.8s forwards;
+      animation-delay: 0.8s;
+    }
+
+    .sn-logo {
+      bottom: 3%;
+      left: 5%;
+      width: 5%;
+      animation-delay: 2s;
+    }
+
+    .website-logo {
+      bottom: 3%;
+      right: 5%;
+      width: 25%;
+      animation-delay: 0.5s;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      0% {
         opacity: 0;
-        animation: fadeIn 1.5s forwards;
+        transform: translateY(-50px);
       }
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
-          transform: translateY(-50px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
       }
-      @media (max-width: 768px) {
-        .header-image {
-          max-width: 95%;
-        }
-      }
-      .when-where-container {
-        position: relative;
-        width: 100%;
-        padding: 320px 0 30px 0;
-        text-align: left;
-        overflow: hidden;
-      }
-      .when-where-image {
-        max-width: 40%;
-        height: auto;
-        margin-left: 10%;
+    }
+
+    @keyframes slideIn {
+      0% {
         opacity: 0;
-        animation: slideIn 1.8s forwards;
+        transform: translateX(-50px);
       }
-      @keyframes slideIn {
-        0% {
-          opacity: 0;
-          transform: translateX(-50px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateX(0);
-        }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
       }
-      @media (max-width: 768px) {
-        .when-where-image {
-          max-width: 70%;
-          margin-left: 5%;
-        }
-      }
-      .lineup-container {
-        position: relative;
-        width: 100%;
-        padding: 50px 0;
-        text-align: left;
-        overflow: hidden;
-      }
-      .lineup-image {
-        max-width: 60%;
-        height: auto;
-        margin-left: 5%;
-        margin-right: 5%;
+    }
+
+    @keyframes slideInRight {
+      0% {
         opacity: 0;
-        animation: slideInRight 1.8s forwards;
+        transform: translateX(50px);
       }
-      @keyframes slideInRight {
-        0% {
-          opacity: 0;
-          transform: translateX(50px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateX(0);
-        }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
       }
-      @media (max-width: 768px) {
-        .lineup-image {
-          max-width: 80%;
-          margin-right: 5%;
-        }
-      }
-      .footer-container {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        align-items: center;
-        z-index: 100;
-      }
-      .sn-logo {
-        height: 60px;
-        width: auto;
-        margin-right: 15px;
-        opacity: 0;
-        animation: fadeIn 1.5s forwards 2s;
-      }
-      .website-logo {
-        height: 40px;
-        width: auto;
-        opacity: 0;
-        animation: fadeIn 1.5s forwards 2.5s;
-      }
-      @media (max-width: 768px) {
-        .footer-container {
-          bottom: 15px;
-          right: 15px;
-        }
-        .sn-logo {
-          height: 40px;
-        }
-        .website-logo {
-          height: 25px;
-        }
-      }
-    </style>
-    <script src="parallaxus.js"></script>
-  </head>
-  <body>
-    <div class="header-container">
-      <img
-        src="header.png"
-        alt="Signal.Noise Header"
-        class="header-image parallax"
-        data-speed="0.3"
-      />
-    </div>
-    <div class="when-where-container">
-      <img
-        src="when where.png"
-        alt="When Where"
-        class="when-where-image parallax"
-        data-speed="0.5"
-      />
-    </div>
-    <div class="lineup-container">
-      <img
-        src="lineup.png"
-        alt="Lineup"
-        class="lineup-image parallax"
-        data-speed="0.4"
-      />
-    </div>
-    <div class="footer-container">
-      <img
-        src="sn_logo.png"
-        alt="Signal Noise Logo"
-        class="sn-logo parallax"
-        data-speed="0.2"
-      />
-      <img
-        src="website.png"
-        alt="Website"
-        class="website-logo parallax"
-        data-speed="0.2"
-      />
-    </div>
-  </body>
-</html>
+    }
+  </style>
+</head>
+<body>
+  <div class="flyer-container">
+    <img src="background.png" class="flyer-background" alt="Flyer background">
+
+    <img src="header.png" class="overlay header" alt="Header">
+    <img src="when where.png" class="overlay when-where" alt="When and Where">
+    <img src="lineup.png" class="overlay lineup" alt="Lineup">
+    <img src="sn_logo.png" class="overlay sn-logo" alt="Signal Noise Logo">
+    <img src="website.png" class="overlay website-logo" alt="Website Info">
+  </div>
+
+</body></html>
