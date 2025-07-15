@@ -20,7 +20,7 @@
     .flyer-container {
       position: relative;
       aspect-ratio: 17 / 22;
-      width: 95vw;
+      width: 100vw;
       max-height: 100vh;
       background-color: black;
       overflow: hidden;
@@ -53,8 +53,8 @@
 
     .when-where {
       top: 46%;
-      left: 5%;
-      width: 55%;
+      left: 0%;
+      width: 50%;
       animation: slideIn 1.8s forwards;
       animation-delay: 0.5s;
     }
@@ -81,6 +81,13 @@
       animation-delay: 0.5s;
     }
 
+    .greenscreen {
+      top: 33%;
+      right: 1%;
+      width: 49%;
+      animation: fadeIn 1.5s forwards;
+      animation-delay: 1s;
+    }
     /* Animations */
     @keyframes fadeIn {
       0% {
@@ -123,6 +130,7 @@
     <img src="header.png" class="overlay header" alt="Header">
     <img src="when where.png" class="overlay when-where" alt="When and Where">
     <img src="lineup.png" class="overlay lineup" alt="Lineup">
+    <img src="greenscreenmission.png" class="overlay greenscreen" alt="Greenscreen">
     <img src="sn_logo.png" class="overlay sn-logo" alt="Signal Noise Logo">
     <img src="website.png" class="overlay website-logo" alt="Website Info">
   </div>
