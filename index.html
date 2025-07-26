@@ -75,6 +75,52 @@
       animation-delay: 1s;
     }
 
+    .greenscreen img {
+      position: relative;
+      top: 0;
+      right: 0;
+      width: 100%;
+      opacity: 1;
+    }
+
+    .terminal-text-container {
+      position: absolute;
+      top: 13%;
+      left: 12%;
+      width: 71%;
+      height: 70%;
+      z-index: 2;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .terminal-text {
+      font-family: monospace;
+      color: #f5f5f5;
+      /* Font size will be set dynamically by JavaScript */
+      line-height: 1.2;
+      white-space: pre-wrap;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+      margin: 0;
+      padding: 0;
+    }
+
+    .cursor {
+      display: inline-block;
+      /* Width and height will be set dynamically by JavaScript */
+      background-color: #f5f5f5;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .sn-logo {
       bottom: 3%;
       right: 32%;
@@ -141,9 +187,108 @@
     <img src="header.png" class="overlay header" alt="Header">
     <img src="whenwhere.png" class="overlay when-where" alt="When and Where">
     <img src="lineup.png" class="overlay lineup" alt="Lineup">
-    <img src="greenscreenmission.png" class="overlay greenscreen" alt="Greenscreen">
+    <div class="overlay greenscreen">
+      <img src="greenscreen_blank.png" alt="Greenscreen">
+      <div class="terminal-text-container">
+        <span class="terminal-text" id="terminal-text"></span>
+        <span class="cursor"></span>
+      </div>
+    </div>
     <img src="sn_logo.png" class="overlay sn-logo" alt="Signal Noise Logo">
     <img src="website.png" class="overlay website-logo" alt="Website Info">
   </div>
 
+  <script>
+    // Function to adjust font size based on greenscreen size
+    function adjustFontSize() {
+      const greenscreen = document.querySelector('.greenscreen');
+      const terminalText = document.querySelector('.terminal-text');
+      const cursor = document.querySelector('.cursor');
+      
+      if (greenscreen && terminalText && cursor) {
+        const greenscreenWidth = greenscreen.offsetWidth;
+        
+        // Set font size to be proportional to the greenscreen width
+        const fontSize = greenscreenWidth * 0.029;
+        terminalText.style.fontSize = `${fontSize}px`;
+        
+        // Adjust cursor size proportionally
+        cursor.style.width = `${fontSize * 0.4}px`;
+        cursor.style.height = `${fontSize * 1.1}px`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait for the greenscreen image to appear (it has a 1s animation delay)
+      setTimeout(function() {
+        // Use standard HTML markup for formatting
+        const htmlText = `this is for the hacker punks... 
+
+ the ones who <u>break to make better</u>... 
+ who write <u>zines and zero-days</u>... 
+ who still <u>question the answers</u>... 
+ who <u>DIYed before it was downloadable</u>...
+
+this isn't nostalgia... 
+      ...it's <u>defiance with better tools</u>
+
+we didn't outgrow <u>we upgraded</u>`;
+
+        const terminalText = document.getElementById('terminal-text');
+        let displayText = '';
+        let rawText = '';
+        let i = 0;
+        let inTag = false;
+        let currentTag = '';
+        
+        function typeWriter() {
+          if (i < htmlText.length) {
+            const char = htmlText.charAt(i);
+            
+            // Handle HTML tags
+            if (char === '<') {
+              inTag = true;
+              currentTag = '<';
+            } else if (char === '>' && inTag) {
+              inTag = false;
+              currentTag += '>';
+              displayText += currentTag;
+              
+              // Don't add tags to raw text
+              currentTag = '';
+            } else if (inTag) {
+              currentTag += char;
+            } else if (char === '\n') {
+              // Handle line breaks
+              displayText += '<br>';
+              rawText += '\n';
+            } else {
+              // Regular character
+              displayText += char;
+              rawText += char;
+            }
+            
+            // Update the HTML
+            terminalText.innerHTML = displayText;
+            
+            i++;
+            // Random typing speed between 10ms and 40ms for a faster effect to ensure all text is visible
+            const typingSpeed = Math.floor(Math.random() * 30) + 10;
+            setTimeout(typeWriter, typingSpeed);
+          }
+        }
+        
+        // Adjust font size initially
+        adjustFontSize();
+        
+        // Start the typewriter effect
+        setTimeout(function() {
+          typeWriter();
+        }, 500); // Reduced delay to start typing sooner
+      }, 1200); // Adjusted timing to start after the animation begins
+      
+      // Add resize event listener to adjust font size when window is resized
+      window.addEventListener('resize', adjustFontSize);
+    });
+  </script>
 </body></html>
