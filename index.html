@@ -114,20 +114,51 @@
       animation: expandScreen 0.6s ease-in-out forwards;
     }
 
-    .fullscreen-greenscreen .terminal-text-container {
-      position: fixed;
-      top: 9%;
-      left: 15%;
-      width: 67%;
+    /* Create a container for the greenscreen monitor that maintains aspect ratio */
+    .fullscreen-greenscreen-container {
+      position: relative;
+      width: 92%;
+      max-width: 1400px;
+      max-height: 90vh;
+      margin: 0 auto;
+      /* Simple flex container to center the image */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .fullscreen-greenscreen img {
-      position: fixed;
-      top: 5%;
-      right: 4%;
-      left: 4%;
-      width: 92%;
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
+      /* Preserve aspect ratio without distortion */
+      object-fit: contain;
       opacity: 1;
+    }
+
+    /* Position text precisely within the monitor area of the greenscreen image */
+    .fullscreen-greenscreen .terminal-text-container {
+      position: absolute;
+      /* These percentages map exactly to the monitor screen area in the image */
+      top: 13%;
+      left: 12%;
+      width: 73%;
+      height: 75%;
+      /* Remove max-width/height constraints to maintain exact positioning */
+      max-width: none;
+      max-height: none;
+      /* No scrolling needed - all text should be visible */
+      overflow: visible;
+      /* Remove padding that could affect positioning */
+      padding: 0;
+      /* Text alignment */
+      text-align: left;
+      /* Subtle text shadow for readability */
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      /* Font size is preserved from the small greenscreen */
+      /* Ensure proper box sizing */
+      box-sizing: border-box;
     }
 
     .terminal-text {
@@ -301,6 +332,9 @@ be safe... be sane... stay legal... and let your creativity loose
         cursor.style.height = `${fontSize * 1.1}px`;
       }
     }
+    
+    // Store the original font size to preserve it when expanding the greenscreen
+    let originalFontSize;
 
     document.addEventListener('DOMContentLoaded', function() {
       // Wait for the greenscreen image to appear (it has a 1s animation delay)
@@ -362,8 +396,10 @@ we didn't outgrow <u>we upgraded</u>`;
           }
         }
         
-        // Adjust font size initially
+        // Adjust font size initially and store the original size
         adjustFontSize();
+        // Store the original font size for later use
+        originalFontSize = window.getComputedStyle(terminalText).fontSize;
         
         // Start the typewriter effect
         setTimeout(function() {
@@ -371,8 +407,13 @@ we didn't outgrow <u>we upgraded</u>`;
         }, 500); // Reduced delay to start typing sooner
       }, 1200); // Adjusted timing to start after the animation begins
       
-      // Add resize event listener to adjust font size when window is resized
-      window.addEventListener('resize', adjustFontSize);
+      // Add resize event listeners to adjust font size when window is resized
+      window.addEventListener('resize', function() {
+        // Only adjust font size if the greenscreen is not in fullscreen mode
+        if (!assignmentShown) {
+          adjustFontSize();
+        }
+      });
     });
 
     // --- Assignment menu with glitch effect on long press/hover ---
@@ -411,10 +452,28 @@ be safe... be sane... stay legal... and let your creativity loose`;
       const overlays = document.querySelectorAll('.overlay:not(.greenscreen)');
       overlays.forEach(el => el.classList.add('overlay-fade-out'));
 
+      // Create a container for the greenscreen to maintain aspect ratio
       greenscreen.classList.add('fullscreen-greenscreen');
+      
+      // Wrap the image in a container for better positioning
+      const greenscreenImg = greenscreen.querySelector('img');
+      const terminalContainer = greenscreen.querySelector('.terminal-text-container');
+      
+      // Only create the container if it doesn't exist yet
+      if (!greenscreen.querySelector('.fullscreen-greenscreen-container')) {
+        const container = document.createElement('div');
+        container.className = 'fullscreen-greenscreen-container';
+        
+        // Move the image and terminal container into the new container
+        greenscreen.appendChild(container);
+        container.appendChild(greenscreenImg);
+        container.appendChild(terminalContainer);
+      }
       clearTimeout(typewriterTimeout);
       terminalText.innerHTML = assignmentText.replace(/\n/g, '<br>');
       if (cursor) cursor.style.display = 'none';
+      
+      // No need to adjust font size after expansion - we keep the original size
     }
 
     function startPressTimer() {
