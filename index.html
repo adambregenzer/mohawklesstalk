@@ -91,12 +91,43 @@
       top: 13%;
       left: 12%;
       width: 71%;
-      height: 70%;
-      z-index: 2;
+      height: auto;
+      z-index: 10000;
       overflow: visible;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      pointer-events: none;
+    }
+
+    .fullscreen-greenscreen {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 9999;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: expandScreen 0.6s ease-in-out forwards;
+    }
+
+    .fullscreen-greenscreen .terminal-text-container {
+      position: fixed;
+      top: 9%;
+      left: 15%;
+      width: 67%;
+    }
+
+    .fullscreen-greenscreen img {
+      position: fixed;
+      top: 5%;
+      right: 4%;
+      left: 4%;
+      width: 92%;
+      opacity: 1;
     }
 
     .terminal-text {
@@ -169,6 +200,32 @@
         transform: translateX(0);
       }
     }
+
+    @keyframes expandScreen {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+
+    /* Fade out overlays except greenscreen */
+    .overlay-fade-out:not(.greenscreen) {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    .flyer-container.fade-out {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
   </style>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VVJ4EDS16X"></script>
@@ -185,6 +242,30 @@
   <div class="flyer-container">
     <img src="background.png" class="flyer-background" alt="Flyer background">
 
+<!-- 
+hey punk what are you looking for in the html comments
+if you're bored how about you take an assignment:
+-destroy/deface a piece of corporate swag (one you own, obviously)
+-dress like Fat Mike in drag at BlackHat
+-sing the NOFX song "August 8th" on August 8th at the triple down
+-work punk lyrics into your BlackHat talk or use ../.. on your slides
+-hand out Hacker's Manifesto leaflets next to strip club barkers
+-get Fat Mike to yell "Hack the Planet" with you
+-get a ../.. tattoo – or convince someone else to
+-spread ../.. stickers around BSidesLV, BlackHat, and DEF CON
+-wear your punk battle vest at BlackHat and schedule an interview
+-dress like a CrowdStrike Dahmer doll and hang out by their booth
+-give a lightning talk in a dive bar bathroom to a standing audience
+-use "signal/noise" as your company name on your BlackHat badge
+-make up your own assignment and show it off at the event
+-ask for Mojo Nixon at a BlackHat vendor booth. if they say "he don't work here" tell them their booth could use some fixin'
+
+PIC || GTFO - or fuck it, do it live
+
+this is a punk rock flyer, not an incitement to violence or harassment
+be safe... be sane... stay legal... and let your creativity loose
+-->
+
     <img src="header.png" class="overlay header" alt="Header">
     <img src="whenwhere.png" class="overlay when-where" alt="When and Where">
     <img src="lineup.png" class="overlay lineup" alt="Lineup">
@@ -200,6 +281,8 @@
   </div>
 
   <script>
+    let typewriterTimeout;
+
     // Function to adjust font size based on greenscreen size
     function adjustFontSize() {
       const greenscreen = document.querySelector('.greenscreen');
@@ -275,7 +358,7 @@ we didn't outgrow <u>we upgraded</u>`;
             i++;
             // Random typing speed between 10ms and 40ms for a faster effect to ensure all text is visible
             const typingSpeed = Math.floor(Math.random() * 30) + 10;
-            setTimeout(typeWriter, typingSpeed);
+            typewriterTimeout = setTimeout(typeWriter, typingSpeed);
           }
         }
         
@@ -291,5 +374,63 @@ we didn't outgrow <u>we upgraded</u>`;
       // Add resize event listener to adjust font size when window is resized
       window.addEventListener('resize', adjustFontSize);
     });
+
+    // --- Assignment menu with glitch effect on long press/hover ---
+    let assignmentShown = false;
+    let pressTimer;
+    const greenscreen = document.querySelector('.greenscreen');
+    const terminalText = document.getElementById('terminal-text');
+    const cursor = document.querySelector('.cursor');
+
+    const assignmentText = `hey punk if you're bored take an assignment:
+-destroy/deface a piece of corporate swag (one you own, obviously)
+-dress like Fat Mike in drag at BlackHat
+-sing the NOFX song "August 8th" on August 8th at the triple down
+-work punk lyrics into your BlackHat talk or use ../.. on your slides
+-hand out Hacker's Manifesto leaflets next to strip club barkers
+-get Fat Mike to yell "Hack the Planet" with you
+-get a ../.. tattoo – or convince someone else to
+-spread ../.. stickers around BSidesLV, BlackHat, and DEF CON
+-wear your punk battle vest at BlackHat and schedule an interview
+-dress like a CrowdStrike Dahmer doll and hang out by their booth
+-give a lightning talk in a dive bar bathroom to a standing audience
+-use "signal/noise" as your company name on your BlackHat badge
+-make up your own assignment and show it off at the event
+-ask for Mojo Nixon at a BlackHat vendor booth. if they say "he don't work here" tell them their booth could use some fixin'
+
+PIC || GTFO - or fuck it, do it live
+
+this is a punk rock flyer, not an incitement to harassment 
+be safe... be sane... stay legal... and let your creativity loose`;
+
+    function showAssignmentMenu() {
+      if (assignmentShown) return;
+      assignmentShown = true;
+
+      // Fade out overlays except greenscreen
+      const overlays = document.querySelectorAll('.overlay:not(.greenscreen)');
+      overlays.forEach(el => el.classList.add('overlay-fade-out'));
+
+      greenscreen.classList.add('fullscreen-greenscreen');
+      clearTimeout(typewriterTimeout);
+      terminalText.innerHTML = assignmentText.replace(/\n/g, '<br>');
+      if (cursor) cursor.style.display = 'none';
+    }
+
+    function startPressTimer() {
+      pressTimer = setTimeout(showAssignmentMenu, 3000);
+    }
+
+    function cancelPressTimer() {
+      clearTimeout(pressTimer);
+    }
+
+    if (greenscreen) {
+      greenscreen.addEventListener('mousedown', startPressTimer);
+      greenscreen.addEventListener('touchstart', startPressTimer);
+      greenscreen.addEventListener('mouseup', cancelPressTimer);
+      greenscreen.addEventListener('mouseleave', cancelPressTimer);
+      greenscreen.addEventListener('touchend', cancelPressTimer);
+    }
   </script>
 </body></html>
