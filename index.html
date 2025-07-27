@@ -85,6 +85,31 @@
       width: 100%;
       opacity: 1;
     }
+    
+    /* Text styling */
+    .terminal-text {
+      position: relative;
+    }
+    
+    /* No line wrappers - we'll use the original HTML structure */
+    
+    /* More pronounced glowing text effect for characters only */
+    .intensify-glitch .terminal-text {
+      color: #20ff80; /* Change the text color to green */
+      text-shadow: 0 0 10px rgba(32, 255, 128, 0.9), 0 0 20px rgba(32, 255, 128, 0.7);
+      animation: pronouncedPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes pronouncedPulse {
+      0%, 100% { 
+        color: #20ff80; 
+        text-shadow: 0 0 10px rgba(32, 255, 128, 0.9), 0 0 20px rgba(32, 255, 128, 0.7);
+      }
+      50% { 
+        color: #ffffff; 
+        text-shadow: 0 0 15px rgba(32, 255, 128, 1), 0 0 25px rgba(32, 255, 128, 0.8);
+      }
+    }
 
     .terminal-text-container {
       position: absolute;
@@ -209,6 +234,8 @@
         transform: translateY(0);
       }
     }
+    
+    /* We'll use JavaScript for the random glitch effect instead of CSS animations */
 
     @keyframes slideIn {
       0% {
@@ -393,7 +420,15 @@ we didn't outgrow <u>we upgraded</u>`;
             // Random typing speed between 10ms and 40ms for a faster effect to ensure all text is visible
             const typingSpeed = Math.floor(Math.random() * 30) + 10;
             typewriterTimeout = setTimeout(typeWriter, typingSpeed);
+          } else {
+            // When typing is complete, wrap each line in a span for the glitch effect
+            wrapLinesForGlitch();
           }
+        }
+        
+        // We don't need to wrap lines anymore - we'll use the original HTML structure
+        function wrapLinesForGlitch() {
+          // Do nothing - keep original HTML structure
         }
         
         // Adjust font size initially and store the original size
@@ -470,18 +505,53 @@ be safe... be sane... stay legal... and let your creativity loose`;
         container.appendChild(terminalContainer);
       }
       clearTimeout(typewriterTimeout);
+      
+      // Just use the original text with line breaks
       terminalText.innerHTML = assignmentText.replace(/\n/g, '<br>');
       if (cursor) cursor.style.display = 'none';
       
       // No need to adjust font size after expansion - we keep the original size
     }
 
+    // Variable to track the glitch interval
+    let glitchInterval;
+    
     function startPressTimer() {
+      // Add a class to intensify the glitch effect when pressed
+      const greenscreen = document.querySelector('.greenscreen');
+      if (greenscreen) {
+        greenscreen.classList.add('intensify-glitch');
+        
+        // Start the random line glitch effect
+        startRandomGlitch();
+      }
+      
       pressTimer = setTimeout(showAssignmentMenu, 3000);
     }
 
     function cancelPressTimer() {
       clearTimeout(pressTimer);
+      
+      // Remove the intensify class when press is canceled
+      const greenscreen = document.querySelector('.greenscreen');
+      if (greenscreen) {
+        greenscreen.classList.remove('intensify-glitch');
+        
+        // Stop the random line glitch effect
+        stopRandomGlitch();
+      }
+    }
+    
+    // Function to add glow effect to all text
+    function startRandomGlitch() {
+      // No need for intervals or random selection
+      // The CSS will handle the glow effect for all text
+    }
+    
+    // Function to stop the glow effect
+    function stopRandomGlitch() {
+      // No need to do anything here
+      // The CSS will handle removing the glow when the class is removed
     }
 
     if (greenscreen) {
