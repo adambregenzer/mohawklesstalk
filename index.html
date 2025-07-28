@@ -483,6 +483,12 @@ be safe... be sane... stay legal... and let your creativity loose`;
       if (assignmentShown) return;
       assignmentShown = true;
 
+      // Send event to Google Analytics
+      gtag('event', 'menu_trigger', {
+        'event_category': 'engagement',
+        'event_label': 'hidden_assignment_menu'
+      });
+
       // Fade out overlays except greenscreen
       const overlays = document.querySelectorAll('.overlay:not(.greenscreen)');
       overlays.forEach(el => el.classList.add('overlay-fade-out'));
