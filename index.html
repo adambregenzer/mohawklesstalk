@@ -110,6 +110,117 @@
         text-shadow: 0 0 15px rgba(32, 255, 128, 1), 0 0 25px rgba(32, 255, 128, 0.8);
       }
     }
+    
+    /* Text distortion effect */
+    @keyframes textDistortion {
+      0% { transform: translate(0, 0) skew(0deg); }
+      20% { transform: translate(-2px, 1px) skew(0.5deg); }
+      40% { transform: translate(2px, -1px) skew(-0.5deg); }
+      60% { transform: translate(-1px, -1px) skew(0.7deg); }
+      80% { transform: translate(1px, 1px) skew(-0.7deg); }
+      100% { transform: translate(0, 0) skew(0deg); }
+    }
+
+    /* Scan lines overlay */
+    .scan-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(32, 255, 128, 0.15) 1px,
+        rgba(32, 255, 128, 0.15) 2px
+      );
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    /* Static noise effect */
+    .static-noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.15" fill="rgb(32, 255, 128)"/></svg>');
+      pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+    }
+
+    /* Text color glitch */
+    @keyframes textColorGlitch {
+      0%, 100% { color: #ffffff; text-shadow: none; }
+      25%, 75% { color: #20ff80; text-shadow: 0 0 8px rgba(32, 255, 128, 0.8); }
+      50% { color: #ffffff; text-shadow: 0 0 12px rgba(32, 255, 128, 1); }
+    }
+
+    /* Access message in terminal area */
+    .access-message {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #20ff80;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "VT323", monospace;
+      font-size: 250%; /* Increased font size */
+      line-height: 1.5;
+      text-shadow: 0 0 10px rgba(32, 255, 128, 0.9);
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease;
+      text-align: center;
+    }
+    
+    /* Continuous glitching for access message */
+    .show-access-message {
+      opacity: 1 !important;
+      animation: accessMessageGlitch 0.5s infinite;
+    }
+    
+    @keyframes accessMessageGlitch {
+      0%, 100% { 
+        transform: translate(0, 0) skew(0deg);
+        text-shadow: 0 0 10px rgba(32, 255, 128, 0.9);
+      }
+      25% { 
+        transform: translate(-2px, 1px) skew(0.5deg);
+        text-shadow: 0 0 15px rgba(32, 255, 128, 1);
+      }
+      50% { 
+        transform: translate(2px, -1px) skew(-0.5deg);
+        text-shadow: 0 0 8px rgba(32, 255, 128, 0.8);
+      }
+      75% { 
+        transform: translate(-1px, -1px) skew(0.7deg);
+        text-shadow: 0 0 12px rgba(32, 255, 128, 1);
+      }
+    }
+
+    /* Classes to activate effects */
+    .glitching .terminal-text {
+      animation: textColorGlitch 0.3s ease-in-out, textDistortion 0.3s ease-in-out;
+    }
+
+    .glitching .scan-lines,
+    .glitching .static-noise {
+      opacity: 1;
+    }
+
+    .show-access-message {
+      opacity: 1 !important;
+    }
 
     .terminal-text-container {
       position: absolute;
@@ -363,7 +474,99 @@ be safe... be sane... stay legal... and let your creativity loose
     // Store the original font size to preserve it when expanding the greenscreen
     let originalFontSize;
 
+    // Variables to track glitch state
+    let glitchTimeout;
+    let accessMessageTimeout;
+    let glitchCount = 0;
+    let hasInteracted = false;
+
+    // Function to set up glitch elements
+    function setupGlitchElements() {
+      const terminalContainer = document.querySelector('.terminal-text-container');
+      
+      // Add scan lines
+      const scanLines = document.createElement('div');
+      scanLines.className = 'scan-lines';
+      terminalContainer.appendChild(scanLines);
+      
+      // Add static noise
+      const staticNoise = document.createElement('div');
+      staticNoise.className = 'static-noise';
+      terminalContainer.appendChild(staticNoise);
+      
+      // Add access message
+      const accessMessage = document.createElement('div');
+      accessMessage.className = 'access-message';
+      accessMessage.innerHTML = 'ACCESS<br>YOUR<br>ASSIGNMENTS';
+      terminalContainer.appendChild(accessMessage);
+    }
+
+    // Function to trigger a single glitch
+    function triggerGlitch() {
+      if (assignmentShown || hasInteracted) return;
+      
+      const greenscreen = document.querySelector('.greenscreen');
+      greenscreen.classList.add('glitching');
+      
+      // Remove the glitch after a short duration
+      setTimeout(() => {
+        greenscreen.classList.remove('glitching');
+      }, 300);
+      
+      glitchCount++;
+      
+      // After 3 glitches, show the access message
+      if (glitchCount >= 3 && !accessMessageTimeout) {
+        accessMessageTimeout = setTimeout(showAccessMessage, 2000);
+      }
+    }
+
+    // Function to show the access message
+    function showAccessMessage() {
+      if (assignmentShown || hasInteracted) return;
+      
+      const accessMessage = document.querySelector('.access-message');
+      const terminalText = document.getElementById('terminal-text');
+      
+      // Hide the original text while showing the message
+      if (terminalText) {
+        terminalText.style.visibility = 'hidden';
+      }
+      
+      accessMessage.classList.add('show-access-message');
+      
+      // Hide the message after a longer period
+      setTimeout(() => {
+        accessMessage.classList.remove('show-access-message');
+        
+        // Show the original text again
+        if (terminalText) {
+          terminalText.style.visibility = 'visible';
+        }
+      }, 2000);
+      
+      // Reset glitch count
+      glitchCount = 0;
+    }
+
+    // Start the glitch sequence
+    function startGlitchSequence() {
+      // Initial delay of 2-3 seconds after page load
+      setTimeout(() => {
+        // First glitch
+        triggerGlitch();
+        
+        // Schedule subsequent glitches
+        glitchTimeout = setInterval(() => {
+          triggerGlitch();
+        }, 5000); // Glitch every 5 seconds
+      }, 2500); // Start 2.5 seconds after page load
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+      // Set up glitch elements
+      setupGlitchElements();
+      
       // Wait for the greenscreen image to appear (it has a 1s animation delay)
       setTimeout(function() {
         // Use standard HTML markup for formatting
@@ -439,6 +642,9 @@ we didn't outgrow <u>we upgraded</u>`;
         // Start the typewriter effect
         setTimeout(function() {
           typeWriter();
+          
+          // Start the glitch sequence after the typing has started
+          startGlitchSequence();
         }, 500); // Reduced delay to start typing sooner
       }, 1200); // Adjusted timing to start after the animation begins
       
@@ -532,7 +738,7 @@ be safe... be sane... stay legal... and let your creativity loose`;
         startRandomGlitch();
       }
       
-      pressTimer = setTimeout(showAssignmentMenu, 3000);
+      pressTimer = setTimeout(showAssignmentMenu, 666);
     }
 
     function cancelPressTimer() {
