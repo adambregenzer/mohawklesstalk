@@ -1,0 +1,14 @@
+SIGNAL../..NOISE PUBLIC WALL -- GUESTBOOK.TXT
+Leave word for people you haven't met yet.
+
+Mail sysop@mohawklesstalk.org, subject SIGN THE WALL. One paragraph:
+handle, where you dial in from, what you're bringing, what band name
+you're claiming. Entries appended by hand, most Sunday nights.
+No edits. No deletions. No algorithm. The order is the order.
+------------------------------------------------------------------
+11-JUL-94  SYSOP / LAS VEGAS
+wall is open. first pressing. if you can read this, we're already
+friends.
+------------------------------------------------------------------
+(your paragraph goes here. mail the sysop. band names go to whoever
+claims them first -- that's how every band ever started.)

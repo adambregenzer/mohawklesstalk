@@ -1,0 +1,13 @@
+SIGNAL../..NOISE CHANGE LOG -- CHANGES.TXT
+newest first. mail corrections, not applause.
+
+11-JUL-94  sysop   dropped the terminal from the front door. the raw page
+                   loads first now; the full 14.4 ceremony moved to
+                   connect.html. hokey is a feature, not a default.
+11-JUL-94  sysop   NAME THAT BAUD is live. four real handshakes, recorded
+                   off real phone lines by gough lui. no labels. prove it.
+11-JUL-94  sysop   readme.1st and guestbook.txt appear. the wall is open.
+10-JUL-94  sysop   page went up at /1994 to collect feedback. mail
+                   corrections to sysop. don't mail to complain about
+                   the colors.
+09-JUL-94  sysop   first carrier. hello, whoever you are.
