@@ -37,9 +37,6 @@ CREDITS
   https://archive.goughlui.com/legacy/soundofmodems/index.htm
   Real modems, real phone lines. Copied with gratitude.
 
-  Cassette image (tape.png) by Fyrsten, CC BY-SA 3.0:
-  https://commons.wikimedia.org/wiki/File:Audio_cassette.png
-
 COPYING
   Copy, modify, mirror, print, and hand to a friend. Attribution is a
   courtesy, not a tollbooth. Do not claim we endorse your version.

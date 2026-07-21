@@ -1,6 +1,10 @@
 SIGNAL../..NOISE CHANGE LOG -- CHANGES.TXT
 newest first. mail corrections, not applause.
 
+20-JUL-94  sysop   pulled the cassette picture. it did not scan. the tape
+                   lives on in the exchange rules where it belongs.
+20-JUL-94  sysop   the guestbook is the wall file. it was always the wall
+                   file. we never said anything about paper.
 20-JUL-94  sysop   moved to the front door. mohawklesstalk.org IS the
                    1994 page now. last year's flyer parked at /2025.
 20-JUL-94  sysop   date posted: aug 5 or 6, 2-6pm. we will tell you which

@@ -179,8 +179,6 @@ table.detail tr td:last-child { padding-left:12px; }
 .manifesto .sep { color:#FF00FF; }
 .manifesto .hi { color:#FFCC00; }
 
-.tapebox { text-align:center; margin:18px 0 6px 0; }
-
 /* hand-drawn logo sticker, scotch-taped into the page */
 .stickerbox { text-align:center; margin:30px 0 6px 0; }
 .sticker {
@@ -349,15 +347,10 @@ table.detail tr td:last-child { padding-left:12px; }
         <p class="paint">Stickers<span class="dd">../..</span>patches<span class="dd">../..</span>zines<span class="dd">../..</span>tools<span class="dd">../..</span>tracks. Bring a stack, leave with a different stack. The exchange runs on mixtape rules: everything is for sharing, attribution is a courtesy, and the best copy is the one you hand to somebody.</p>
         <p class="paint"><span class="new">NEW!</span> The wall file, <a href="guestbook.txt">GUESTBOOK.TXT</a>. Leave word for people you haven't met yet. <i>brb building the future</i><span class="dd">../..</span><i>ask me about my zine</i><span class="dd">../..</span><i>if you can read this, we're already friends</i>. mail yours to <a href="mailto:sysop@mohawklesstalk.org?subject=SIGN%20THE%20WALL">the sysop</a>. entries are appended by hand, most sunday nights.</p>
 
-        <div class="tapebox">
-          <img id="tapeimg" class="gfx paint" src="tape.png" width="554" height="374" style="width:360px; max-width:90%; height:auto;" alt="A compact cassette, Side A">
-          <p class="caption paint">Fig. 2: official media format of the exchange. chrome bias. high position. rewind with a pencil. image: <a href="https://commons.wikimedia.org/wiki/File:Audio_cassette.png">Fyrsten</a>, CC BY-SA 3.0.</p>
-        </div>
-
         <hr class="rule paint">
 
         <h2 id="book" class="paint"><span class="blk"></span>SIGN THE GUESTBOOK</h2>
-        <p class="paint">A real one. Paper. At the door. Say who you are<span class="dd">../..</span>where you dial in from<span class="dd">../..</span>what you brought<span class="dd">../..</span>what band name you're claiming. Greetz section included and encouraged.</p>
+        <p class="paint">Sign <a href="guestbook.txt">GUESTBOOK.TXT</a>. one paragraph to the sysop: who you are<span class="dd">../..</span>where you dial in from<span class="dd">../..</span>what you're bringing<span class="dd">../..</span>what band name you're claiming. greetz section included and encouraged. added by hand. no edits, no algorithm. the order is the order.</p>
         <p class="paint">Questions, demo pitches, or ANSI art submissions: <a href="mailto:sysop@mohawklesstalk.org">sysop@mohawklesstalk.org</a></p>
 
         <hr class="rule paint">
@@ -715,11 +708,8 @@ function loadImages(){
   interlaceReveal(gfx.masthead, function(){
     setStatus("Loading image: carrier.gif (39K)...", 70);
     interlaceReveal(gfx.hero, function(){
-      setStatus("Loading image: sidea.png (104K)...", 90);
-      setTimeout(function(){
-        setStatus("Document: Done. (157K in 14.2 sec) ../.. worth it.", 100);
-        if (SIM) try { parent.postMessage({sn:"done"}, "*"); } catch(e){}
-      }, reduced ? 0 : 600);
+      setStatus("Document: Done. (53K in 14.2 sec) ../.. worth it.", 100);
+      if (SIM) try { parent.postMessage({sn:"done"}, "*"); } catch(e){}
     }, reduced);
   }, reduced);
 }
