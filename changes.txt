@@ -1,6 +1,11 @@
 SIGNAL../..NOISE CHANGE LOG -- CHANGES.TXT
 newest first. mail corrections, not applause.
 
+20-JUL-94  sysop   moved to the front door. mohawklesstalk.org IS the
+                   1994 page now. last year's flyer parked at /2025.
+20-JUL-94  sysop   date posted: aug 5 or 6, 2-6pm. we will tell you which
+                   one the week before. yelling at us will not make the
+                   venue answer email faster.
 11-JUL-94  sysop   dropped the terminal from the front door. the raw page
                    loads first now; the full 14.4 ceremony moved to
                    connect.html. hokey is a feature, not a default.

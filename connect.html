@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIALING -- SIGNAL../..NOISE</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<meta name="robots" content="noindex">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVJ4EDS16X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VVJ4EDS16X');
+</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  background:#008080;
+  overflow:hidden;
+  font-family:Geneva, Verdana, Helvetica, sans-serif;
+}
+
+/* ---------- DIAL-UP TERMINAL ---------- */
+#dialup {
+  position:fixed; inset:0; background:#000; color:#00AA00;
+  font-family:"Courier New", monospace; font-size:15px; line-height:1.5;
+  z-index:100; display:flex; justify-content:center; overflow-y:auto;
+}
+.termwrap { width:min(640px, 94vw); padding:10vh 10px 60px 10px; }
+#term div { white-space:pre; }
+.amber { color:#FFAA00; }
+.white { color:#CCCCCC; }
+.c-cyn { color:#00FFFF; } .c-mag { color:#FF00FF; }
+.c-yel { color:#FFFF00; } .c-wht { color:#FFFFFF; }
+#connectChoices { margin-top:22px; }
+#connectChoices button {
+  background:#000; color:#00AA00; border:1px solid #00AA00;
+  font-family:"Courier New", monospace; font-size:14px;
+  padding:6px 14px; margin:0 12px 10px 0; cursor:pointer;
+}
+#connectChoices button:hover, #connectChoices button:focus { background:#003300; outline:2px solid #00AA00; }
+#connectChoices .soundnote { margin-top:14px; font-size:12px; color:#007700; }
+#skipBtn {
+  position:fixed; right:14px; bottom:10px; z-index:101;
+  background:none; border:none; color:#005500; font-family:"Courier New",monospace;
+  font-size:12px; cursor:pointer; text-decoration:underline;
+}
+#skipBtn:hover, #skipBtn:focus { color:#00AA00; }
+
+/* ---------- MOSAIC WINDOW ---------- */
+.bevel-out { border-top:1px solid #FFFFFF; border-left:1px solid #FFFFFF;
+  border-bottom:1px solid #808080; border-right:1px solid #808080; }
+.bevel-in { border-top:1px solid #808080; border-left:1px solid #808080;
+  border-bottom:1px solid #FFFFFF; border-right:1px solid #FFFFFF; }
+
+#browser {
+  display:none; flex-direction:column;
+  background:#C0C0C0;
+  position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(880px, 100vw); height:min(92vh, 100vh);
+  border:2px solid; border-color:#FFFFFF #404040 #404040 #FFFFFF;
+  box-shadow:6px 6px 0 rgba(0,0,0,0.35);
+}
+@media (max-width:920px), (max-height:560px) {
+  #browser { left:0; top:0; transform:none; width:100vw; height:100dvh;
+    border:0; box-shadow:none; }
+}
+
+#titlebar {
+  background:#000080; color:#fff;
+  font-size:11px; font-weight:bold;
+  padding:3px 8px; letter-spacing:0.3px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+#titlebar .winbtns span {
+  display:inline-block; width:14px; height:12px; background:#C0C0C0; color:#000;
+  font-size:9px; line-height:12px; text-align:center; margin-left:2px;
+  border:1px solid #fff; border-bottom-color:#404040; border-right-color:#404040;
+}
+
+#menubar {
+  background:#C0C0C0; padding:3px 8px; font-size:11px;
+  border-bottom:1px solid #808080;
+}
+#menubar span { margin-right:14px; }
+
+#toolbar {
+  display:flex; align-items:center; gap:6px;
+  background:#C0C0C0; padding:4px 6px;
+  border-bottom:1px solid #808080;
+}
+.tbtn {
+  font-size:10px; background:#C0C0C0; padding:3px 9px; color:#000;
+  cursor:default; white-space:nowrap; text-decoration:none;
+}
+a.tbtn { cursor:pointer; }
+#throbber {
+  margin-left:auto; width:36px; height:30px; background:#000;
+  display:flex; align-items:center; justify-content:center;
+}
+#throbcv { width:32px; height:26px; image-rendering:pixelated; }
+
+#locbar {
+  display:flex; align-items:center; gap:8px;
+  background:#C0C0C0; padding:4px 8px;
+  border-bottom:1px solid #808080; font-size:11px;
+}
+#locfield {
+  flex:1; background:#fff; padding:3px 6px;
+  font-family:"Courier New", monospace; font-size:12px;
+  white-space:nowrap; overflow:hidden;
+}
+
+#viewport { flex:1; background:#000; }
+#viewport iframe { display:block; width:100%; height:100%; border:0; background:#000; }
+
+#statusbar {
+  display:flex; align-items:center; gap:8px;
+  background:#C0C0C0; padding:3px 8px;
+  border-top:1px solid #FFFFFF; font-size:10px;
+}
+#statustext { flex:1; padding:2px 6px; }
+#progress { width:120px; height:12px; background:#fff; position:relative; }
+#progressFill { position:absolute; left:0; top:0; bottom:0; width:0%; background:#000080; }
+
+@media (max-width:660px) {
+  .tbtn:nth-child(n+5) { display:none; }
+  #toolbar a.tbtn { display:inline-block; } /* keep the Raw Page escape hatch */
+}
+</style>
+</head>
+<body>
+
+<!-- ============ DIAL-UP ============ -->
+<div id="dialup" role="status" aria-live="polite">
+  <div class="termwrap">
+    <div id="term"></div>
+    <div id="connectChoices">
+      <button id="btnConnect">[ CONNECT ]</button>
+      <button id="btnConnectSound">[ CONNECT w/ SOUND ]</button>
+      <div class="soundnote">w/ SOUND plays a real V.32bis handshake, recorded off a real phone line.</div>
+    </div>
+  </div>
+</div>
+<button id="skipBtn">skip intro &gt;&gt;</button>
+
+<!-- ============ MOSAIC ============ -->
+<div id="browser">
+  <div id="titlebar">
+    <span>NCSA Mosaic: Document View - [SIGNAL../..NOISE]</span>
+    <span class="winbtns"><span>▼</span><span>▲</span></span>
+  </div>
+  <div id="menubar"><span>File</span><span>Options</span><span>Navigate</span><span>Annotate</span><span>Help</span></div>
+  <div id="toolbar">
+    <span class="tbtn bevel-out">Back</span>
+    <span class="tbtn bevel-out">Forward</span>
+    <span class="tbtn bevel-out">Home</span>
+    <span class="tbtn bevel-out">Reload</span>
+    <span class="tbtn bevel-out">Open</span>
+    <span class="tbtn bevel-out">Save As</span>
+    <a class="tbtn bevel-out" href="index.html">Raw Page</a>
+    <div id="throbber" class="bevel-in"><canvas id="throbcv" width="32" height="26" aria-label="Loading animation: starfield with comets"></canvas></div>
+  </div>
+  <div id="locbar">
+    <span><b>Document URL:</b></span>
+    <div id="locfield" class="bevel-in">http://www.mohawklesstalk.org/</div>
+  </div>
+  <div id="viewport">
+    <iframe id="pageframe" src="index.html?sim=1" title="SIGNAL../..NOISE — MO HAWK../..LESS TALK"></iframe>
+  </div>
+  <div id="statusbar">
+    <div id="statustext" class="bevel-in">Ready.</div>
+    <div id="progress" class="bevel-in"><div id="progressFill"></div></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ================= TERMINAL ================= */
+var term = document.getElementById("term");
+var lines = [
+  ["ATDT 1 702 555 1994", 400],
+  ["DIALING...", 900],
+  ["RINGING", 700],
+  ["CARRIER 14400", 500],
+  ["PROTOCOL: LAP-M  COMPRESSION: V.42BIS", 400],
+  ["CONNECT 14400/ARQ", 600],
+  ["", 250],
+  ["<span class='c-cyn'>▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</span>", 120],
+  ["<span class='c-cyn'>█</span> <span class='c-mag'>░▒▓</span> <span class='c-wht'>SIGNAL</span><span class='c-mag'>../..</span><span class='c-wht'>NOISE</span> <span class='c-yel'>BBS</span> <span class='c-mag'>▓▒░</span>  <span class='c-yel'>NODE 1</span>  <span class='c-cyn'>█</span>", 150],
+  ["<span class='c-cyn'>█</span>  <span class='c-wht'>mo hawk</span><span class='c-mag'>../..</span><span class='c-wht'>less talk</span>   <span class='c-yel'>est. las vegas</span>  <span class='c-cyn'>█</span>", 150],
+  ["<span class='c-cyn'>▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</span>", 200],
+  ["<span class='amber'>we exist without permission../..borders../..limits</span>", 500],
+  ["<span class='amber'>NO CARRIER IS A STATE OF MIND</span>", 500],
+  ["<span class='white'>Launching Mosaic... hold on to something.</span>", 700]
+];
+
+function typeLines(idx, cb){
+  if (idx >= lines.length){ cb(); return; }
+  var d = document.createElement("div");
+  d.innerHTML = lines[idx][0] || "&nbsp;";
+  term.appendChild(d);
+  setTimeout(function(){ typeLines(idx+1, cb); }, reduced ? 30 : lines[idx][1]);
+}
+
+/* real handshake — recording by Gough Lui, Sound of Modems archive
+   (archive.goughlui.com/legacy/soundofmodems). user-initiated only. */
+function handshake(){
+  try { new Audio("sounds/v32b-14400bps.mp3").play(); } catch(e){}
+}
+
+/* ================= THROBBER (starfield + comets) ================= */
+var STARS = [];
+for (var si = 0; si < 14; si++) STARS.push([ (si*29+7) % 32, (si*13+3) % 26, si % 5 ]);
+
+function drawThrob(f){
+  var cv = document.getElementById("throbcv"), ctx = cv.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, 32, 26);
+  STARS.forEach(function(s, i){
+    if ((i + f) % 4 === 0) return; // twinkle off
+    ctx.fillStyle = (i % 5 === 0) ? "#FFCC00" : ((i % 5 === 1) ? "#00FFFF" : "#FFF");
+    ctx.fillRect(s[0], s[1], 1, 1);
+  });
+  if (f > 0){
+    [[0, "#FF00FF"], [11, "#00FFFF"]].forEach(function(c){
+      var t = (f + c[0]) % 22, cx = 34 - t*2, cy = -2 + t*1.6;
+      ctx.fillStyle = c[1]; ctx.fillRect(cx, cy, 2, 2);
+      ctx.fillStyle = "#FFF";
+      ctx.fillRect(cx+2, cy-1, 1, 1); ctx.fillRect(cx+4, cy-2, 1, 1);
+    });
+  }
+}
+var throbTimer = null, frame = 0, busy = false;
+function startThrob(){
+  drawThrob(1);
+  if (reduced) return;
+  if (!throbTimer) throbTimer = setInterval(function(){ frame++; if (busy) drawThrob(frame); }, 160);
+}
+
+/* ================= PAGE FRAME ================= */
+var statusEl = document.getElementById("statustext");
+var fillEl = document.getElementById("progressFill");
+var frameReady = false, wantStart = false, started = false;
+
+function sendStart(){
+  try {
+    document.getElementById("pageframe").contentWindow.postMessage({sn:"start"}, "*");
+  } catch(e){}
+}
+function maybeStart(){
+  if (!frameReady || !wantStart || started) return;
+  started = true;
+  busy = true; startThrob();
+  sendStart();
+}
+
+window.addEventListener("message", function(ev){
+  var d = ev.data || {};
+  if (d.sn === "ready"){
+    frameReady = true;
+    if (started) sendStart(); else maybeStart(); // resend if a start got lost
+  } else if (d.sn === "status"){
+    statusEl.textContent = d.t;
+    if (d.pct !== undefined) fillEl.style.width = d.pct + "%";
+  } else if (d.sn === "done"){
+    busy = false; drawThrob(0);
+    setTimeout(function(){ fillEl.style.width = "0%"; }, 1500);
+  }
+});
+
+/* ================= LAUNCH ================= */
+function launch(){
+  document.getElementById("dialup").style.display = "none";
+  document.getElementById("skipBtn").style.display = "none";
+  document.getElementById("browser").style.display = "flex";
+  wantStart = true;
+  maybeStart();
+  setTimeout(function(){ if (!started){ frameReady = true; maybeStart(); } }, 2000); /* belt and suspenders */
+}
+var launched = false;
+function launchOnce(){ if (!launched){ launched = true; launch(); } }
+
+function begin(sound){
+  document.getElementById("connectChoices").style.display = "none";
+  if (sound) handshake();
+  typeLines(0, function(){
+    setTimeout(launchOnce, reduced ? 0 : 500);
+  });
+}
+
+document.getElementById("btnConnect").addEventListener("click", function(){ begin(false); });
+document.getElementById("btnConnectSound").addEventListener("click", function(){ begin(true); });
+document.getElementById("skipBtn").addEventListener("click", launchOnce);
+
+})();
+</script>
+</body>
+</html>

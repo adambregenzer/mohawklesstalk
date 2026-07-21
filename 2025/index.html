@@ -1,0 +1,789 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Open Graph Metadata -->
+  <meta property="og:title" content="signal../..noise: mo hawk../..less talk">
+  <meta property="og:description" content="we exist without permission../..borders../..predefined notions of our limits. we find power in an amp../..a keyboard../..in our connection. this is our signal../..our noise../..our time. august 6, 1–6pm../..triple down bar">
+  <meta property="og:image" content="https://mohawklesstalk.org/mhlt-card.png">
+  <meta property="og:url" content="https://mohawklesstalk.org">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="nazis punks and hackers fuck off">
+  <meta name="twitter:description" content="nazis punks and hackers fuck off">
+  <meta name="twitter:image" content="https://mohawklesstalk.org/npfo.png">
+  <title>signal / noise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+
+    margin: auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+    aspect-ratio: 17 / 22;
+    }
+
+    .flyer-container {
+      position: relative;
+      aspect-ratio: 17 / 22;
+      width: 100vw;
+      max-height: 100vh;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .flyer-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: absolute;
+      z-index: 1;
+      max-width: 100%;
+      height: auto;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+    }
+
+    /* Position each overlay image */
+    .header {
+      top: 2%;
+      left: 2%;
+      width: 96%;
+      animation-delay: 0.2s;
+    }
+
+    .when-where {
+      top: 48%;
+      left: 0%;
+      width: 55%;
+      animation: slideIn 1.8s forwards;
+      animation-delay: 0.5s;
+    }
+
+    .lineup {
+      top: 67%;
+      left: 3%;
+      width: 53%;
+      animation: slideInRight 1.8s forwards;
+      animation-delay: 0.8s;
+    }
+
+    .greenscreen {
+      top: 31%;
+      right: 1%;
+      width: 52%;
+      animation: fadeIn 1.5s forwards;
+      animation-delay: 1s;
+    }
+
+    .greenscreen img {
+      position: relative;
+      top: 0;
+      right: 0;
+      width: 100%;
+      opacity: 1;
+    }
+    
+    /* Text styling */
+    .terminal-text {
+      position: relative;
+    }
+    
+    /* No line wrappers - we'll use the original HTML structure */
+    
+    /* More pronounced glowing text effect for characters only */
+    .intensify-glitch .terminal-text {
+      color: #20ff80; /* Change the text color to green */
+      text-shadow: 0 0 10px rgba(32, 255, 128, 0.9), 0 0 20px rgba(32, 255, 128, 0.7);
+      animation: pronouncedPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes pronouncedPulse {
+      0%, 100% { 
+        color: #20ff80; 
+        text-shadow: 0 0 10px rgba(32, 255, 128, 0.9), 0 0 20px rgba(32, 255, 128, 0.7);
+      }
+      50% { 
+        color: #ffffff; 
+        text-shadow: 0 0 15px rgba(32, 255, 128, 1), 0 0 25px rgba(32, 255, 128, 0.8);
+      }
+    }
+    
+    /* Text distortion effect */
+    @keyframes textDistortion {
+      0% { transform: translate(0, 0) skew(0deg); }
+      20% { transform: translate(-2px, 1px) skew(0.5deg); }
+      40% { transform: translate(2px, -1px) skew(-0.5deg); }
+      60% { transform: translate(-1px, -1px) skew(0.7deg); }
+      80% { transform: translate(1px, 1px) skew(-0.7deg); }
+      100% { transform: translate(0, 0) skew(0deg); }
+    }
+
+    /* Scan lines overlay */
+    .scan-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(32, 255, 128, 0.15) 1px,
+        rgba(32, 255, 128, 0.15) 2px
+      );
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    /* Static noise effect */
+    .static-noise {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.15" fill="rgb(32, 255, 128)"/></svg>');
+      pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+    }
+
+    /* Text color glitch */
+    @keyframes textColorGlitch {
+      0%, 100% { color: #ffffff; text-shadow: none; }
+      25%, 75% { color: #20ff80; text-shadow: 0 0 8px rgba(32, 255, 128, 0.8); }
+      50% { color: #ffffff; text-shadow: 0 0 12px rgba(32, 255, 128, 1); }
+    }
+
+    /* Access message in terminal area */
+    .access-message {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #20ff80;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "VT323", monospace;
+      font-size: 250%; /* Increased font size */
+      line-height: 1.5;
+      text-shadow: 0 0 10px rgba(32, 255, 128, 0.9);
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease;
+      text-align: center;
+    }
+    
+    /* Continuous glitching for access message */
+    .show-access-message {
+      opacity: 1 !important;
+      animation: accessMessageGlitch 0.5s infinite;
+    }
+    
+    @keyframes accessMessageGlitch {
+      0%, 100% { 
+        transform: translate(0, 0) skew(0deg);
+        text-shadow: 0 0 10px rgba(32, 255, 128, 0.9);
+      }
+      25% { 
+        transform: translate(-2px, 1px) skew(0.5deg);
+        text-shadow: 0 0 15px rgba(32, 255, 128, 1);
+      }
+      50% { 
+        transform: translate(2px, -1px) skew(-0.5deg);
+        text-shadow: 0 0 8px rgba(32, 255, 128, 0.8);
+      }
+      75% { 
+        transform: translate(-1px, -1px) skew(0.7deg);
+        text-shadow: 0 0 12px rgba(32, 255, 128, 1);
+      }
+    }
+
+    /* Classes to activate effects */
+    .glitching .terminal-text {
+      animation: textColorGlitch 0.3s ease-in-out, textDistortion 0.3s ease-in-out;
+    }
+
+    .glitching .scan-lines,
+    .glitching .static-noise {
+      opacity: 1;
+    }
+
+    .show-access-message {
+      opacity: 1 !important;
+    }
+
+    .terminal-text-container {
+      position: absolute;
+      top: 13%;
+      left: 12%;
+      width: 71%;
+      height: auto;
+      z-index: 10000;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      pointer-events: none;
+    }
+
+    .fullscreen-greenscreen {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 9999;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: expandScreen 0.6s ease-in-out forwards;
+    }
+
+    /* Create a container for the greenscreen monitor that maintains aspect ratio */
+    .fullscreen-greenscreen-container {
+      position: relative;
+      width: 92%;
+      max-width: 1400px;
+      max-height: 90vh;
+      margin: 0 auto;
+      /* Simple flex container to center the image */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fullscreen-greenscreen img {
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
+      /* Preserve aspect ratio without distortion */
+      object-fit: contain;
+      opacity: 1;
+    }
+
+    /* Position text precisely within the monitor area of the greenscreen image */
+    .fullscreen-greenscreen .terminal-text-container {
+      position: absolute;
+      /* These percentages map exactly to the monitor screen area in the image */
+      top: 13%;
+      left: 12%;
+      width: 73%;
+      height: 75%;
+      /* Remove max-width/height constraints to maintain exact positioning */
+      max-width: none;
+      max-height: none;
+      /* No scrolling needed - all text should be visible */
+      overflow: visible;
+      /* Remove padding that could affect positioning */
+      padding: 0;
+      /* Text alignment */
+      text-align: left;
+      /* Subtle text shadow for readability */
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      /* Font size is preserved from the small greenscreen */
+      /* Ensure proper box sizing */
+      box-sizing: border-box;
+    }
+
+    .terminal-text {
+      font-family: "VT323", monospace;
+      color: #ffffff;
+      /* Font size will be set dynamically by JavaScript */
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cursor {
+      display: inline-block;
+      /* Width and height will be set dynamically by JavaScript */
+      background-color: #ffffff;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .sn-logo {
+      bottom: 3%;
+      right: 32%;
+      width: 5%;
+      animation-delay: 2s;
+    }
+
+    .website-logo {
+      bottom: 3%;
+      right: 5%;
+      width: 25%;
+      animation-delay: 0.5s;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* We'll use JavaScript for the random glitch effect instead of CSS animations */
+
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes expandScreen {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+
+    /* Fade out overlays except greenscreen */
+    .overlay-fade-out:not(.greenscreen) {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    .flyer-container.fade-out {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVJ4EDS16X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VVJ4EDS16X');
+</script>
+  <link rel="icon" href="/favicon.png" type="image/png">
+</head>
+<body>
+  <div class="flyer-container">
+    <img src="/background.jpg" class="flyer-background" alt="Flyer background">
+
+<!-- 
+hey punk what are you looking for in the html comments
+if you're bored how about you take an assignment:
+-destroy/deface a piece of corporate swag (one you own, obviously)
+-dress like Fat Mike in drag at BlackHat
+-sing the NOFX song "August 8th" on August 8th at the triple down
+-work punk lyrics into your BlackHat talk or use ../.. on your slides
+-hand out Hacker's Manifesto leaflets next to strip club barkers
+-get Fat Mike to yell "Hack the Planet" with you
+-get a ../.. tattoo – or convince someone else to
+-spread ../.. stickers around BSidesLV, BlackHat, and DEF CON
+-wear your punk battle vest at BlackHat and schedule an interview
+-dress like a CrowdStrike Dahmer doll and hang out by their booth
+-give a lightning talk in a dive bar bathroom to a standing audience
+-use "signal/noise" as your company name on your BlackHat badge
+-make up your own assignment and show it off at the event
+-ask for Mojo Nixon at a BlackHat vendor booth. if they say "he don't work here" tell them their booth could use some fixin'
+
+PIC || GTFO - or fuck it, do it live
+
+this is a punk rock flyer, not an incitement to violence or harassment
+be safe... be sane... stay legal... and let your creativity loose
+-->
+
+    <img src="/header.png" class="overlay header" alt="Header">
+    <img src="/whenwhere.png" class="overlay when-where" alt="When and Where">
+    <img src="/lineup.png" class="overlay lineup" alt="Lineup">
+    <div class="overlay greenscreen">
+      <img src="/greenscreen_blank.png" alt="Greenscreen">
+      <div class="terminal-text-container">
+        <span class="terminal-text" id="terminal-text"></span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+    <img src="/sn_logo.png" class="overlay sn-logo" alt="Signal Noise Logo">
+    <img src="/website.png" class="overlay website-logo" alt="Website Info">
+  </div>
+
+  <script>
+    let typewriterTimeout;
+
+    // Function to adjust font size based on greenscreen size
+    function adjustFontSize() {
+      const greenscreen = document.querySelector('.greenscreen');
+      const terminalText = document.querySelector('.terminal-text');
+      const cursor = document.querySelector('.cursor');
+      
+      if (greenscreen && terminalText && cursor) {
+        const greenscreenWidth = greenscreen.offsetWidth;
+        
+        // Set font size to be proportional to the greenscreen width
+        const fontSize = greenscreenWidth * 0.044;
+        terminalText.style.fontSize = `${fontSize}px`;
+        
+        // Adjust cursor size proportionally
+        cursor.style.width = `${fontSize * 0.4}px`;
+        cursor.style.height = `${fontSize * 1.1}px`;
+      }
+    }
+    
+    // Store the original font size to preserve it when expanding the greenscreen
+    let originalFontSize;
+
+    // Variables to track glitch state
+    let glitchTimeout;
+    let accessMessageTimeout;
+    let glitchCount = 0;
+    let hasInteracted = false;
+
+    // Function to set up glitch elements
+    function setupGlitchElements() {
+      const terminalContainer = document.querySelector('.terminal-text-container');
+      
+      // Add scan lines
+      const scanLines = document.createElement('div');
+      scanLines.className = 'scan-lines';
+      terminalContainer.appendChild(scanLines);
+      
+      // Add static noise
+      const staticNoise = document.createElement('div');
+      staticNoise.className = 'static-noise';
+      terminalContainer.appendChild(staticNoise);
+      
+      // Add access message
+      const accessMessage = document.createElement('div');
+      accessMessage.className = 'access-message';
+      accessMessage.innerHTML = 'ACCESS<br>YOUR<br>ASSIGNMENTS';
+      terminalContainer.appendChild(accessMessage);
+    }
+
+    // Function to trigger a single glitch
+    function triggerGlitch() {
+      if (assignmentShown || hasInteracted) return;
+      
+      const greenscreen = document.querySelector('.greenscreen');
+      greenscreen.classList.add('glitching');
+      
+      // Remove the glitch after a short duration
+      setTimeout(() => {
+        greenscreen.classList.remove('glitching');
+      }, 300);
+      
+      glitchCount++;
+      
+      // After 3 glitches, show the access message
+      if (glitchCount >= 3 && !accessMessageTimeout) {
+        accessMessageTimeout = setTimeout(showAccessMessage, 2000);
+      }
+    }
+
+    // Function to show the access message
+    function showAccessMessage() {
+      if (assignmentShown || hasInteracted) return;
+      
+      const accessMessage = document.querySelector('.access-message');
+      const terminalText = document.getElementById('terminal-text');
+      
+      // Hide the original text while showing the message
+      if (terminalText) {
+        terminalText.style.visibility = 'hidden';
+      }
+      
+      accessMessage.classList.add('show-access-message');
+      
+      // Hide the message after a longer period
+      setTimeout(() => {
+        accessMessage.classList.remove('show-access-message');
+        
+        // Show the original text again
+        if (terminalText) {
+          terminalText.style.visibility = 'visible';
+        }
+      }, 2000);
+      
+      // Reset glitch count
+      glitchCount = 0;
+    }
+
+    // Start the glitch sequence
+    function startGlitchSequence() {
+      // Initial delay of 2-3 seconds after page load
+      setTimeout(() => {
+        // First glitch
+        triggerGlitch();
+        
+        // Schedule subsequent glitches
+        glitchTimeout = setInterval(() => {
+          triggerGlitch();
+        }, 5000); // Glitch every 5 seconds
+      }, 2500); // Start 2.5 seconds after page load
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up glitch elements
+      setupGlitchElements();
+      
+      // Wait for the greenscreen image to appear (it has a 1s animation delay)
+      setTimeout(function() {
+        // Use standard HTML markup for formatting
+        const htmlText = `this is for the hacker punks... 
+
+ the ones who <u>break to make better</u>... 
+ who write <u>zines and zero-days</u>... 
+ who still <u>question the answers</u>... 
+ who <u>DIYed before it was downloadable</u>...
+
+this isn't nostalgia... 
+      ...it's <u>defiance with better tools</u>
+
+we didn't outgrow <u>we upgraded</u>`;
+
+        const terminalText = document.getElementById('terminal-text');
+        let displayText = '';
+        let rawText = '';
+        let i = 0;
+        let inTag = false;
+        let currentTag = '';
+        
+        function typeWriter() {
+          if (i < htmlText.length) {
+            const char = htmlText.charAt(i);
+            
+            // Handle HTML tags
+            if (char === '<') {
+              inTag = true;
+              currentTag = '<';
+            } else if (char === '>' && inTag) {
+              inTag = false;
+              currentTag += '>';
+              displayText += currentTag;
+              
+              // Don't add tags to raw text
+              currentTag = '';
+            } else if (inTag) {
+              currentTag += char;
+            } else if (char === '\n') {
+              // Handle line breaks
+              displayText += '<br>';
+              rawText += '\n';
+            } else {
+              // Regular character
+              displayText += char;
+              rawText += char;
+            }
+            
+            // Update the HTML
+            terminalText.innerHTML = displayText;
+            
+            i++;
+            // Random typing speed between 10ms and 40ms for a faster effect to ensure all text is visible
+            const typingSpeed = Math.floor(Math.random() * 30) + 10;
+            typewriterTimeout = setTimeout(typeWriter, typingSpeed);
+          } else {
+            // When typing is complete, wrap each line in a span for the glitch effect
+            wrapLinesForGlitch();
+          }
+        }
+        
+        // We don't need to wrap lines anymore - we'll use the original HTML structure
+        function wrapLinesForGlitch() {
+          // Do nothing - keep original HTML structure
+        }
+        
+        // Adjust font size initially and store the original size
+        adjustFontSize();
+        // Store the original font size for later use
+        originalFontSize = window.getComputedStyle(terminalText).fontSize;
+        
+        // Start the typewriter effect
+        setTimeout(function() {
+          typeWriter();
+          
+          // Start the glitch sequence after the typing has started
+          startGlitchSequence();
+        }, 500); // Reduced delay to start typing sooner
+      }, 1200); // Adjusted timing to start after the animation begins
+      
+      // Add resize event listeners to adjust font size when window is resized
+      window.addEventListener('resize', function() {
+        // Only adjust font size if the greenscreen is not in fullscreen mode
+        if (!assignmentShown) {
+          adjustFontSize();
+        }
+      });
+    });
+
+    // --- Assignment menu with glitch effect on long press/hover ---
+    let assignmentShown = false;
+    let pressTimer;
+    const greenscreen = document.querySelector('.greenscreen');
+    const terminalText = document.getElementById('terminal-text');
+    const cursor = document.querySelector('.cursor');
+
+    const assignmentText = `hey punk if you're bored take an assignment:
+-destroy/deface a piece of corporate swag (one you own, obviously)
+-dress like Fat Mike in drag at BlackHat
+-sing the NOFX song "August 8th" on August 8th at the triple down
+-work punk lyrics into your BlackHat talk or use ../.. on your slides
+-hand out Hacker's Manifesto leaflets next to strip club barkers
+-get Fat Mike to yell "Hack the Planet" with you
+-get a ../.. tattoo – or convince someone else to
+-spread ../.. stickers around BSidesLV, BlackHat, and DEF CON
+-wear your punk battle vest at BlackHat and schedule an interview
+-dress like a CrowdStrike Dahmer doll and hang out by their booth
+-give a lightning talk in a dive bar bathroom to a standing audience
+-use "signal/noise" as your company name on your BlackHat badge
+-make up your own assignment and show it off at the event
+-ask for Mojo Nixon at a BlackHat vendor booth. if they say "he don't work here" tell them their booth could use some fixin'
+
+PIC || GTFO - or fuck it, do it live
+
+this is a punk rock flyer, not an incitement to harassment 
+be safe... be sane... stay legal... and let your creativity loose`;
+
+    function showAssignmentMenu() {
+      if (assignmentShown) return;
+      assignmentShown = true;
+
+      // Send event to Google Analytics
+      gtag('event', 'menu_trigger', {
+        'event_category': 'engagement',
+        'event_label': 'hidden_assignment_menu'
+      });
+
+      // Fade out overlays except greenscreen
+      const overlays = document.querySelectorAll('.overlay:not(.greenscreen)');
+      overlays.forEach(el => el.classList.add('overlay-fade-out'));
+
+      // Create a container for the greenscreen to maintain aspect ratio
+      greenscreen.classList.add('fullscreen-greenscreen');
+      
+      // Wrap the image in a container for better positioning
+      const greenscreenImg = greenscreen.querySelector('img');
+      const terminalContainer = greenscreen.querySelector('.terminal-text-container');
+      
+      // Only create the container if it doesn't exist yet
+      if (!greenscreen.querySelector('.fullscreen-greenscreen-container')) {
+        const container = document.createElement('div');
+        container.className = 'fullscreen-greenscreen-container';
+        
+        // Move the image and terminal container into the new container
+        greenscreen.appendChild(container);
+        container.appendChild(greenscreenImg);
+        container.appendChild(terminalContainer);
+      }
+      clearTimeout(typewriterTimeout);
+      
+      // Just use the original text with line breaks
+      terminalText.innerHTML = assignmentText.replace(/\n/g, '<br>');
+      if (cursor) cursor.style.display = 'none';
+      
+      // No need to adjust font size after expansion - we keep the original size
+    }
+
+    // Variable to track the glitch interval
+    let glitchInterval;
+    
+    function startPressTimer() {
+      // Add a class to intensify the glitch effect when pressed
+      const greenscreen = document.querySelector('.greenscreen');
+      if (greenscreen) {
+        greenscreen.classList.add('intensify-glitch');
+        
+        // Start the random line glitch effect
+        startRandomGlitch();
+      }
+      
+      pressTimer = setTimeout(showAssignmentMenu, 666);
+    }
+
+    function cancelPressTimer() {
+      clearTimeout(pressTimer);
+      
+      // Remove the intensify class when press is canceled
+      const greenscreen = document.querySelector('.greenscreen');
+      if (greenscreen) {
+        greenscreen.classList.remove('intensify-glitch');
+        
+        // Stop the random line glitch effect
+        stopRandomGlitch();
+      }
+    }
+    
+    // Function to add glow effect to all text
+    function startRandomGlitch() {
+      // No need for intervals or random selection
+      // The CSS will handle the glow effect for all text
+    }
+    
+    // Function to stop the glow effect
+    function stopRandomGlitch() {
+      // No need to do anything here
+      // The CSS will handle removing the glow when the class is removed
+    }
+
+    if (greenscreen) {
+      greenscreen.addEventListener('mousedown', startPressTimer);
+      greenscreen.addEventListener('touchstart', startPressTimer);
+      greenscreen.addEventListener('mouseup', cancelPressTimer);
+      greenscreen.addEventListener('mouseleave', cancelPressTimer);
+      greenscreen.addEventListener('touchend', cancelPressTimer);
+    }
+  </script>
+</body></html>

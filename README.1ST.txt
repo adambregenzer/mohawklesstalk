@@ -1,13 +1,14 @@
 SIGNAL../..NOISE -- MO HAWK../..LESS TALK -- README.1ST
-LAST CHANGE: 11-JUL-94
+LAST CHANGE: 20-JUL-94
 
 THIS SITE IS COPYABLE. THAT IS THE POINT.
 
 WHAT THIS IS
   One night for people who build../..break../..solder../..patch../..press
-  record. No keynotes. No cover. Hacker summer camp week, August 2026,
-  at the Triple Down Saloon inside the Punk Rock Museum, Las Vegas NV.
-  Exact date posts on the front page first.
+  record. No keynotes. No cover. AUG 5 or AUG 6, 2026, still arguing
+  which. 2-6pm Vegas time, hacker summer camp week, at the Triple Down
+  Saloon inside the Punk Rock Museum, Las Vegas NV. Full details post
+  on the front page the week before.
 
 FILES
   index.html      the page. loads raw, no ceremony.
