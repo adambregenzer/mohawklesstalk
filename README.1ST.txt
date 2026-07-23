@@ -7,8 +7,7 @@ WHAT THIS IS
   One night for people who build../..break../..solder../..patch../..press
   record. No keynotes. No cover. AUG 5, 2026. 2-6pm Vegas time, hacker
   summer camp week, at the Triple Down Saloon inside the Punk Rock
-  Museum, Las Vegas NV. Full details post on the front page the week
-  before.
+  Museum, Las Vegas NV.
 
 FILES
   index.html      the page. loads raw, no ceremony.

@@ -1,8 +1,10 @@
 SIGNAL../..NOISE CHANGE LOG -- CHANGES.TXT
 newest first. mail corrections, not applause.
 
-21-JUL-94  sysop   the argument is over. AUG 5. 2-6pm. mark the wall,
-                   tell a friend, bring the thing you never finished.
+21-JUL-94  sysop   we have a date. AUG 5. 2-6pm. tell a friend, bring
+                   the thing you never finished.
+21-JUL-94  sysop   the hit counter now tells the truth about what kind
+                   of site this is.
 20-JUL-94  sysop   pulled the cassette picture. it did not scan. the tape
                    lives on in the exchange rules where it belongs.
 20-JUL-94  sysop   the guestbook is the wall file. it was always the wall
